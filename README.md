@@ -16,5 +16,6 @@ git clone https://github.com/your-username/book_exchange_platform_microservice_w
 Open docker desktop
 Run following command in IDE editor terminal:
 >> docker-compose build
+
 >> docker-compose up
 
