@@ -1,0 +1,6 @@
+Commands
+
+pip install Flask Flask-SQLAlchemy
+
+python app.py
+

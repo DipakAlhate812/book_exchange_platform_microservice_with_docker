@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Form</title>
+    <style>
+        body { padding: 20px; font-family: Arial, sans-serif; }
+        form { max-width: 500px; margin: 0 auto; }
+        label { display: block; margin-bottom: 5px; }
+        input, textarea { width: 100%; padding: 8px; margin-bottom: 15px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .error { color: red; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Send Notification</h1>
+    <form id="notificationForm">
+        <label for="actionType">Action Type:</label>
+        <input type="text" id="actionType" name="actionType" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="details">Details (JSON format):</label>
+        <textarea id="details" name="details" rows="4" required>
+{
+    "itemId": "12345",
+    "itemName": "Sample Item"
+}
+        </textarea>
+        
+        <button type="submit">Send Notification</button>
+        <div id="message"></div>
+    </form>
+
+    <script>
+        document.getElementById('notificationForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const messageDiv = document.getElementById('message');
+            
+            try {
+                const details = JSON.parse(document.getElementById('details').value);
+                const response = await fetch('http://localhost:3000/api/notify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        actionType: document.getElementById('actionType').value,
+                        email: document.getElementById('email').value,
+                        details
+                    })
+                });
+
+                const result = await response.json();
+                messageDiv.textContent = result.message;
+                messageDiv.style.color = response.ok ? 'green' : 'red';
+            } catch (error) {
+                messageDiv.textContent = error.message;
+                messageDiv.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

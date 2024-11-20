@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  service_1:
+    build:
+      context: ./service_1
+    container_name: service1-container
+    ports:
+      - "8001:8001"  
+    networks:
+      - my_network
+    environment:
+      - FLASK_ENV=development
+  service_2:
+    build:
+      context: ./service_2
+    container_name: service2-container
+    ports:
+      - "8002:8002"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/notifications
+      - NODE_ENV=development
+    networks:
+      - my_network 
+  mongo:
+    image: mongo:latest
+    container_name: mongo-container
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - my_network
+  service_3:
+    build:
+      context: ./service_3
+    container_name: service3-container
+    ports:
+      - "8003:8003"
+    networks:
+      - my_network
+    environment:
+      - FLASK_ENV=development
+networks:
+  my_network:
+    driver: bridge
+
+volumes:
+  mongo_data: {} 

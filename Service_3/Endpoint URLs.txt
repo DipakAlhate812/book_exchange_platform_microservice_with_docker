@@ -1,0 +1,31 @@
+Endpoint URLs
+
+List all books:
+GET http://127.0.0.1:8003/books
+
+Search for books:
+GET http://127.0.0.1:8003/books/search?q=George
+
+Add a new book:
+POST http://127.0.0.1:8003/books
+Body:
+{
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "year": 1937
+}
+
+Edit a book:
+PUT http://127.0.0.1:8003/books/1
+Body:
+{
+    "title": "The Hobbit - Updated",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "year": 1937
+}
+
+Delete a book:
+DELETE http://127.0.0.1:8003/books/1
+
